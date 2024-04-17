@@ -1,2 +1,2 @@
-# Lemonade-EAS
+# Lemonade-Ethereum Attestation Service
 lemonade-EAS
