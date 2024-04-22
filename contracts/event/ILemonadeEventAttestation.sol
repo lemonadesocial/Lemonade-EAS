@@ -9,6 +9,8 @@ interface ILemonadeEventAttestation {
 
     function eventCohostSchemaId() external view returns (bytes32);
 
+    function ticketTypeSchemaId() external view returns (bytes32);
+
     function ticketSchemaId() external view returns (bytes32);
 }
 

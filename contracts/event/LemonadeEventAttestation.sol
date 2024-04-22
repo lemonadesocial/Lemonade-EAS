@@ -10,6 +10,7 @@ import "@ethereum-attestation-service/eas-contracts/contracts/resolver/examples/
 
 import "./ILemonadeEventAttestation.sol";
 import "./resolvers/EventHostSchemaResolver.sol";
+import "./resolvers/TicketTypeDetailSchemaResolver.sol";
 import "./resolvers/TicketIssuingSchemaResolver.sol";
 
 contract Event {}
@@ -25,6 +26,7 @@ contract LemonadeEventAttestation is
     bytes32 public eventDetailSchemaId;
     bytes32 public eventCohostSchemaId;
     bytes32 public ticketTypeSchemaId;
+    bytes32 public ticketTypeDetailSchemaId;
     bytes32 public ticketSchemaId;
 
     IEAS internal eas;
@@ -32,6 +34,7 @@ contract LemonadeEventAttestation is
     event EventCreated(
         address eventAddress,
         address creator,
+        bytes32 externalId,
         bytes32 attestation
     );
 
@@ -43,7 +46,7 @@ contract LemonadeEventAttestation is
         _initSchemas();
     }
 
-    function registerEvent() external payable {
+    function registerEvent(bytes32 _externalId) external payable {
         address creator = _msgSender();
 
         Event event_ = new Event();
@@ -55,7 +58,7 @@ contract LemonadeEventAttestation is
             0,
             true,
             "",
-            abi.encode(creator),
+            abi.encode(creator, _externalId),
             msg.value
         );
 
@@ -66,7 +69,7 @@ contract LemonadeEventAttestation is
 
         bytes32 attestation = eas.attest(request);
 
-        emit EventCreated(eventAddress, creator, attestation);
+        emit EventCreated(eventAddress, creator, _externalId, attestation);
     }
 
     function isValidTicket(
@@ -109,17 +112,24 @@ contract LemonadeEventAttestation is
             hostSchemaResolver
         );
 
+        ISchemaResolver ticketTypeDetailSchemaResolver = new TicketTypeDetailSchemaResolver(
+            eas,
+            this,
+            hostSchemaResolver
+        );
+
         _initEventCreatorSchema(lemonadeAttesterSchemaResolver);
         _initEventCohostSchema(creatorSchemaResolver);
         _initEventDetailSchema(hostSchemaResolver);
         _initTicketTypeSchema(hostSchemaResolver);
+        _initTicketTypeDetailSchema(ticketTypeDetailSchemaResolver);
         _initTicketSchema(ticketSchemaResolver);
     }
 
     function _initEventCreatorSchema(
         ISchemaResolver _resolver
     ) internal onlyInitializing {
-        string memory schema = "address creator";
+        string memory schema = "address creator, bytes32 externalId";
 
         eventCreatorSchemaId = eas.getSchemaRegistry().register(
             schema,
@@ -156,9 +166,21 @@ contract LemonadeEventAttestation is
     function _initTicketTypeSchema(
         ISchemaResolver _resolver
     ) internal onlyInitializing {
-        string memory schema = "string title, address currency, uint256 cost";
+        string memory schema = "bytes32 externalId";
 
         ticketTypeSchemaId = eas.getSchemaRegistry().register(
+            schema,
+            _resolver,
+            true
+        );
+    }
+
+    function _initTicketTypeDetailSchema(
+        ISchemaResolver _resolver
+    ) internal onlyInitializing {
+        string memory schema = "string title, string description, address currency, uint256 cost";
+
+        ticketTypeDetailSchemaId = eas.getSchemaRegistry().register(
             schema,
             _resolver,
             true
