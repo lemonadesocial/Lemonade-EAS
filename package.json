@@ -1,7 +1,10 @@
 {
   "name": "hardhat-project",
   "devDependencies": {
+    "@ethereum-attestation-service/eas-sdk": "^2.1.2",
     "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
+    "@openzeppelin/contracts": "^4.9.6",
+    "@openzeppelin/contracts-upgradeable": "^4.9.6",
     "hardhat": "^2.22.3"
   }
 }
