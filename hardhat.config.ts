@@ -38,8 +38,13 @@ const config: HardhatUserConfig = {
       accounts,
     },
     'optimism-sepolia': {
-      url: process.env.NETWORK_OPTIMISM_URL || 'https://sepolia.optimism.io',
+      url: process.env.NETWORK_OPTIMISM_SEPOLIA_URL || 'https://sepolia.optimism.io',
       chainId: 11155420,
+      accounts,
+    },
+    'sepolia': {
+      url: process.env.NETWORK_SEPOLIA_URL || 'https://1rpc.io/sepolia',
+      chainId: 11155111,
       accounts,
     },
   }

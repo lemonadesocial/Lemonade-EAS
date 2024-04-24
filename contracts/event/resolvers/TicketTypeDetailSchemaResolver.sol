@@ -25,8 +25,10 @@ contract TicketTypeDetailSchemaResolver is SchemaResolver {
         Attestation calldata _attestation,
         uint256
     ) internal view override returns (bool) {
+        bytes32 ticketTypeUID = abi.decode(_attestation.data, (bytes32));
+
         Attestation memory ticketTypeAttestation = _eas.getAttestation(
-            _attestation.refUID
+            ticketTypeUID
         );
 
         address eventAddress = ticketTypeAttestation.recipient;
@@ -38,7 +40,7 @@ contract TicketTypeDetailSchemaResolver is SchemaResolver {
             hostResolver.isHost(
                 _attestation.attester,
                 eventAddress,
-                ticketTypeAttestation.refUID
+                _attestation.refUID
             );
     }
 

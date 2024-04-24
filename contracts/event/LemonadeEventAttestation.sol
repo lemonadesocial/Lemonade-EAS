@@ -34,7 +34,7 @@ contract LemonadeEventAttestation is
     event EventCreated(
         address eventAddress,
         address creator,
-        bytes32 externalId,
+        string externalId,
         bytes32 attestation
     );
 
@@ -46,7 +46,7 @@ contract LemonadeEventAttestation is
         _initSchemas();
     }
 
-    function registerEvent(bytes32 _externalId) external payable {
+    function registerEvent(string memory _externalId) external payable {
         address creator = _msgSender();
 
         Event event_ = new Event();
@@ -129,7 +129,7 @@ contract LemonadeEventAttestation is
     function _initEventCreatorSchema(
         ISchemaResolver _resolver
     ) internal onlyInitializing {
-        string memory schema = "address creator, bytes32 externalId";
+        string memory schema = "address creator, string externalId";
 
         eventCreatorSchemaId = eas.getSchemaRegistry().register(
             schema,
@@ -166,7 +166,7 @@ contract LemonadeEventAttestation is
     function _initTicketTypeSchema(
         ISchemaResolver _resolver
     ) internal onlyInitializing {
-        string memory schema = "bytes32 externalId";
+        string memory schema = "string externalId";
 
         ticketTypeSchemaId = eas.getSchemaRegistry().register(
             schema,
@@ -178,7 +178,7 @@ contract LemonadeEventAttestation is
     function _initTicketTypeDetailSchema(
         ISchemaResolver _resolver
     ) internal onlyInitializing {
-        string memory schema = "string title, string description, address currency, uint256 cost";
+        string memory schema = "bytes32 ticketTypeUID, string title, string description, address currency, uint256 cost";
 
         ticketTypeDetailSchemaId = eas.getSchemaRegistry().register(
             schema,
@@ -190,7 +190,7 @@ contract LemonadeEventAttestation is
     function _initTicketSchema(
         ISchemaResolver _resolver
     ) internal onlyInitializing {
-        string memory schema = "bytes32 ticketTypeUID";
+        string memory schema = "bytes32 ticketTypeUID, string externalId";
 
         ticketSchemaId = eas.getSchemaRegistry().register(
             schema,
