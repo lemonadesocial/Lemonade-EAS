@@ -15,6 +15,13 @@ import "./resolvers/TicketIssuingSchemaResolver.sol";
 
 contract Event {}
 
+string constant eventCreatorSchemaDefinition = "address creator, string externalId";
+string constant eventCohostSchemaDefinition = "address cohost";
+string constant eventDetailSchemaDefinition = "string title, string description, uint256 start, uint256 end, string location";
+string constant ticketTypeSchemaDefinition = "string externalId";
+string constant ticketTypeDetailSchemaDefinition = "bytes32 ticketTypeUID, string title, string description, address currency, uint256 cost";
+string constant ticketSchemaDefinition = "bytes32 ticketTypeUID, string externalId";
+
 contract LemonadeEventAttestation is
     OwnableUpgradeable,
     ILemonadeEventAttestation
@@ -29,7 +36,7 @@ contract LemonadeEventAttestation is
     bytes32 public ticketTypeDetailSchemaId;
     bytes32 public ticketSchemaId;
 
-    IEAS internal eas;
+    IEAS internal _eas;
 
     event EventCreated(
         address eventAddress,
@@ -38,15 +45,15 @@ contract LemonadeEventAttestation is
         bytes32 attestation
     );
 
-    function initialize(address _eas) public initializer {
+    function initialize(address eas) public initializer {
         __Ownable_init();
 
-        eas = IEAS(_eas);
+        _eas = IEAS(eas);
 
         _initSchemas();
     }
 
-    function registerEvent(string memory _externalId) external payable {
+    function registerEvent(string memory externalId) external payable {
         address creator = _msgSender();
 
         Event event_ = new Event();
@@ -58,7 +65,7 @@ contract LemonadeEventAttestation is
             0,
             true,
             "",
-            abi.encode(creator, _externalId),
+            abi.encode(creator, externalId),
             msg.value
         );
 
@@ -67,20 +74,20 @@ contract LemonadeEventAttestation is
             data
         );
 
-        bytes32 attestation = eas.attest(request);
+        bytes32 attestation = _eas.attest(request);
 
-        emit EventCreated(eventAddress, creator, _externalId, attestation);
+        emit EventCreated(eventAddress, creator, externalId, attestation);
     }
 
     function isValidTicket(
-        bytes32 _ticketUID,
-        bytes calldata _signature
+        bytes32 ticketUID,
+        bytes calldata signature
     ) external view returns (bool) {
-        bytes memory encoded = abi.encode(_ticketUID);
+        bytes memory encoded = abi.encode(ticketUID);
 
-        address signer = encoded.toEthSignedMessageHash().recover(_signature);
+        address signer = encoded.toEthSignedMessageHash().recover(signature);
 
-        Attestation memory attestation = eas.getAttestation(_ticketUID);
+        Attestation memory attestation = _eas.getAttestation(ticketUID);
 
         return
             isValidAttestation(attestation) &&
@@ -90,30 +97,30 @@ contract LemonadeEventAttestation is
 
     function _initSchemas() internal onlyInitializing {
         ISchemaResolver lemonadeAttesterSchemaResolver = new AttesterResolver(
-            eas,
+            _eas,
             address(this)
         );
 
         ISchemaResolver creatorSchemaResolver = new EventHostSchemaResolver(
-            eas,
+            _eas,
             this,
             true
         );
 
         EventHostSchemaResolver hostSchemaResolver = new EventHostSchemaResolver(
-            eas,
+            _eas,
             this,
             false
         );
 
         ISchemaResolver ticketSchemaResolver = new TicketIssuingSchemaResolver(
-            eas,
+            _eas,
             this,
             hostSchemaResolver
         );
 
         ISchemaResolver ticketTypeDetailSchemaResolver = new TicketTypeDetailSchemaResolver(
-            eas,
+            _eas,
             this,
             hostSchemaResolver
         );
@@ -127,74 +134,61 @@ contract LemonadeEventAttestation is
     }
 
     function _initEventCreatorSchema(
-        ISchemaResolver _resolver
+        ISchemaResolver resolver
     ) internal onlyInitializing {
-        string memory schema = "address creator, string externalId";
-
-        eventCreatorSchemaId = eas.getSchemaRegistry().register(
-            schema,
-            _resolver,
+        eventCreatorSchemaId = _eas.getSchemaRegistry().register(
+            eventCreatorSchemaDefinition,
+            resolver,
             true
         );
     }
 
     function _initEventCohostSchema(
-        ISchemaResolver _resolver
+        ISchemaResolver resolver
     ) internal onlyInitializing {
-        string memory schema = "address cohost";
-
-        eventCohostSchemaId = eas.getSchemaRegistry().register(
-            schema,
-            _resolver,
+        eventCohostSchemaId = _eas.getSchemaRegistry().register(
+            eventCohostSchemaDefinition,
+            resolver,
             true
         );
     }
 
     function _initEventDetailSchema(
-        ISchemaResolver _resolver
+        ISchemaResolver resolver
     ) internal onlyInitializing {
-        string
-            memory schema = "string title, string description, uint256 start, uint256 end, string location";
-
-        eventDetailSchemaId = eas.getSchemaRegistry().register(
-            schema,
-            _resolver,
+        eventDetailSchemaId = _eas.getSchemaRegistry().register(
+            eventDetailSchemaDefinition,
+            resolver,
             true
         );
     }
 
     function _initTicketTypeSchema(
-        ISchemaResolver _resolver
+        ISchemaResolver resolver
     ) internal onlyInitializing {
-        string memory schema = "string externalId";
-
-        ticketTypeSchemaId = eas.getSchemaRegistry().register(
-            schema,
-            _resolver,
+        ticketTypeSchemaId = _eas.getSchemaRegistry().register(
+            ticketTypeSchemaDefinition,
+            resolver,
             true
         );
     }
 
     function _initTicketTypeDetailSchema(
-        ISchemaResolver _resolver
+        ISchemaResolver resolver
     ) internal onlyInitializing {
-        string memory schema = "bytes32 ticketTypeUID, string title, string description, address currency, uint256 cost";
-
-        ticketTypeDetailSchemaId = eas.getSchemaRegistry().register(
-            schema,
-            _resolver,
+        ticketTypeDetailSchemaId = _eas.getSchemaRegistry().register(
+            ticketTypeDetailSchemaDefinition,
+            resolver,
             true
         );
     }
 
     function _initTicketSchema(
-        ISchemaResolver _resolver
+        ISchemaResolver resolver
     ) internal onlyInitializing {
-        string memory schema = "bytes32 ticketTypeUID, string externalId";
-
-        ticketSchemaId = eas.getSchemaRegistry().register(
-            schema,
-            _resolver,
+        ticketSchemaId = _eas.getSchemaRegistry().register(
+            ticketSchemaDefinition,
+            resolver,
             true
         );
     }

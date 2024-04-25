@@ -7,16 +7,16 @@ import "@ethereum-attestation-service/eas-contracts/contracts/resolver/SchemaRes
 import "../ILemonadeEventAttestation.sol";
 
 contract EventHostSchemaResolver is SchemaResolver {
-    bool internal onlyCreator;
-    ILemonadeEventAttestation internal lea;
+    bool internal _onlyCreator;
+    ILemonadeEventAttestation internal _lea;
 
     constructor(
-        IEAS _eas,
-        ILemonadeEventAttestation _lea,
-        bool _onlyCreator
-    ) SchemaResolver(_eas) {
-        onlyCreator = _onlyCreator;
-        lea = _lea;
+        IEAS eas,
+        ILemonadeEventAttestation lea,
+        bool onlyCreator
+    ) SchemaResolver(eas) {
+        _onlyCreator = onlyCreator;
+        _lea = lea;
     }
 
     function isHost(
@@ -28,12 +28,14 @@ contract EventHostSchemaResolver is SchemaResolver {
 
         if (!isValidAttestation(hostAttestation)) return false;
 
-        if (hostAttestation.schema == lea.eventCreatorSchemaId()) {
+        if (hostAttestation.schema == _lea.eventCreatorSchemaId()) {
             address creator = abi.decode(hostAttestation.data, (address));
 
             return hostAttestation.recipient == eventAddress && user == creator;
-        } else if (hostAttestation.schema == lea.eventCohostSchemaId()) {
-            if (onlyCreator) return false;
+        }
+
+        if (hostAttestation.schema == _lea.eventCohostSchemaId()) {
+            if (_onlyCreator) return false;
 
             address cohost = abi.decode(hostAttestation.data, (address));
 
@@ -44,14 +46,14 @@ contract EventHostSchemaResolver is SchemaResolver {
     }
 
     function onAttest(
-        Attestation calldata _attestation,
+        Attestation calldata attestation,
         uint256
     ) internal view override returns (bool) {
         return
             isHost(
-                _attestation.attester,
-                _attestation.recipient,
-                _attestation.refUID
+                attestation.attester,
+                attestation.recipient,
+                attestation.refUID
             );
     }
 

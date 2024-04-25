@@ -8,24 +8,24 @@ import "../ILemonadeEventAttestation.sol";
 import "./EventHostSchemaResolver.sol";
 
 contract TicketTypeDetailSchemaResolver is SchemaResolver {
-    bool internal onlyCreator;
-    ILemonadeEventAttestation internal lea;
-    EventHostSchemaResolver internal hostResolver;
+    bool internal _onlyCreator;
+    ILemonadeEventAttestation internal _lea;
+    EventHostSchemaResolver internal _hostResolver;
 
     constructor(
-        IEAS _eas,
-        ILemonadeEventAttestation _lea,
-        EventHostSchemaResolver _hostResolver
-    ) SchemaResolver(_eas) {
-        lea = _lea;
-        hostResolver = _hostResolver;
+        IEAS eas,
+        ILemonadeEventAttestation lea,
+        EventHostSchemaResolver hostResolver
+    ) SchemaResolver(eas) {
+        _lea = lea;
+        _hostResolver = hostResolver;
     }
 
     function onAttest(
-        Attestation calldata _attestation,
+        Attestation calldata attestation,
         uint256
     ) internal view override returns (bool) {
-        bytes32 ticketTypeUID = abi.decode(_attestation.data, (bytes32));
+        bytes32 ticketTypeUID = abi.decode(attestation.data, (bytes32));
 
         Attestation memory ticketTypeAttestation = _eas.getAttestation(
             ticketTypeUID
@@ -34,13 +34,13 @@ contract TicketTypeDetailSchemaResolver is SchemaResolver {
         address eventAddress = ticketTypeAttestation.recipient;
 
         return
-            _attestation.recipient == eventAddress &&
+            attestation.recipient == eventAddress &&
             isValidAttestation(ticketTypeAttestation) &&
-            ticketTypeAttestation.schema == lea.ticketTypeSchemaId() &&
-            hostResolver.isHost(
-                _attestation.attester,
+            ticketTypeAttestation.schema == _lea.ticketTypeSchemaId() &&
+            _hostResolver.isHost(
+                attestation.attester,
                 eventAddress,
-                _attestation.refUID
+                attestation.refUID
             );
     }
 
