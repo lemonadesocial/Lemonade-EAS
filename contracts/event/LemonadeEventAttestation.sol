@@ -137,9 +137,7 @@ contract LemonadeEventAttestation is
         );
     }
 
-    function _initEventCreatorSchema(
-        ISchemaResolver resolver
-    ) internal onlyInitializing {
+    function _initEventCreatorSchema(ISchemaResolver resolver) internal {
         eventCreatorSchemaId = _eas.getSchemaRegistry().register(
             eventCreatorSchemaDefinition,
             resolver,
@@ -147,9 +145,7 @@ contract LemonadeEventAttestation is
         );
     }
 
-    function _initEventCohostSchema(
-        ISchemaResolver resolver
-    ) internal onlyInitializing {
+    function _initEventCohostSchema(ISchemaResolver resolver) internal {
         eventCohostSchemaId = _eas.getSchemaRegistry().register(
             eventCohostSchemaDefinition,
             resolver,
@@ -157,9 +153,7 @@ contract LemonadeEventAttestation is
         );
     }
 
-    function _initEventDetailSchema(
-        ISchemaResolver resolver
-    ) internal onlyInitializing {
+    function _initEventDetailSchema(ISchemaResolver resolver) internal {
         eventDetailSchemaId = _eas.getSchemaRegistry().register(
             eventDetailSchemaDefinition,
             resolver,
@@ -167,9 +161,7 @@ contract LemonadeEventAttestation is
         );
     }
 
-    function _initTicketTypeSchema(
-        ISchemaResolver resolver
-    ) internal onlyInitializing {
+    function _initTicketTypeSchema(ISchemaResolver resolver) internal {
         ticketTypeSchemaId = _eas.getSchemaRegistry().register(
             ticketTypeSchemaDefinition,
             resolver,
@@ -177,9 +169,7 @@ contract LemonadeEventAttestation is
         );
     }
 
-    function _initTicketTypeDetailSchema(
-        ISchemaResolver resolver
-    ) internal onlyInitializing {
+    function _initTicketTypeDetailSchema(ISchemaResolver resolver) internal {
         ticketTypeDetailSchemaId = _eas.getSchemaRegistry().register(
             ticketTypeDetailSchemaDefinition,
             resolver,
@@ -187,9 +177,7 @@ contract LemonadeEventAttestation is
         );
     }
 
-    function _initTicketSchema(
-        ISchemaResolver resolver
-    ) internal onlyInitializing {
+    function _initTicketSchema(ISchemaResolver resolver) internal {
         ticketSchemaId = _eas.getSchemaRegistry().register(
             ticketSchemaDefinition,
             resolver,
