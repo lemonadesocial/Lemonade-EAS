@@ -15,12 +15,12 @@ import "./resolvers/TicketIssuingSchemaResolver.sol";
 
 contract Event {}
 
-string constant eventCreatorSchemaDefinition = "address creator, string externalId";
-string constant eventCohostSchemaDefinition = "address cohost";
-string constant eventDetailSchemaDefinition = "string title, string description, uint256 start, uint256 end, string location";
-string constant ticketTypeSchemaDefinition = "string externalId";
-string constant ticketTypeDetailSchemaDefinition = "bytes32 ticketTypeUID, string title, string description, address currency, uint256 cost";
-string constant ticketSchemaDefinition = "bytes32 ticketTypeUID, string externalId";
+string constant eventCreatorSchemaDefinition = "address creator, string creatorName, string creatorProfile, string eventLink, string externalId";
+string constant eventCohostSchemaDefinition = "address cohost, string cohostName, string cohostProfile, string eventLink";
+string constant eventDetailSchemaDefinition = "string title, string description, string date, string eventLink, string type, uint256 tickets, string creatorName, string creatorProfile";
+string constant ticketTypeSchemaDefinition = "string event, string eventLink, string externalId";
+string constant ticketTypeDetailSchemaDefinition = "string event, string eventLink, string title, string description, uint256 cost, string currency, string provider, bytes32 ticketTypeUID";
+string constant ticketSchemaDefinition = "string guest, string event, string eventLink, string ticket, string assignedBy, bytes32 ticketTypeUID, string externalId";
 
 contract LemonadeEventAttestation is
     OwnableUpgradeable,
@@ -37,6 +37,11 @@ contract LemonadeEventAttestation is
     bytes32 public ticketSchemaId;
 
     IEAS internal _eas;
+    ISchemaResolver internal lemonadeAttesterSchemaResolver;
+    ISchemaResolver internal creatorSchemaResolver;
+    EventHostSchemaResolver internal hostSchemaResolver;
+    ISchemaResolver internal ticketSchemaResolver;
+    ISchemaResolver internal ticketTypeDetailSchemaResolver;
 
     event EventCreated(
         address eventAddress,
@@ -50,7 +55,7 @@ contract LemonadeEventAttestation is
 
         _eas = IEAS(eas);
 
-        _initSchemas();
+        reinitResolversAndSchemas();
     }
 
     function registerEvent(string memory externalId) external payable {
@@ -95,42 +100,41 @@ contract LemonadeEventAttestation is
             attestation.recipient == signer;
     }
 
-    function _initSchemas() internal onlyInitializing {
-        ISchemaResolver lemonadeAttesterSchemaResolver = new AttesterResolver(
-            _eas,
-            address(this)
-        );
+    function reinitResolversAndSchemas() public onlyOwner {
+        _reinitResolvers();
+        reinitSchemas();
+    }
 
-        ISchemaResolver creatorSchemaResolver = new EventHostSchemaResolver(
-            _eas,
-            this,
-            true
-        );
-
-        EventHostSchemaResolver hostSchemaResolver = new EventHostSchemaResolver(
-            _eas,
-            this,
-            false
-        );
-
-        ISchemaResolver ticketSchemaResolver = new TicketIssuingSchemaResolver(
-            _eas,
-            this,
-            hostSchemaResolver
-        );
-
-        ISchemaResolver ticketTypeDetailSchemaResolver = new TicketTypeDetailSchemaResolver(
-            _eas,
-            this,
-            hostSchemaResolver
-        );
-
+    function reinitSchemas() public onlyOwner {
         _initEventCreatorSchema(lemonadeAttesterSchemaResolver);
         _initEventCohostSchema(creatorSchemaResolver);
         _initEventDetailSchema(hostSchemaResolver);
         _initTicketTypeSchema(hostSchemaResolver);
         _initTicketTypeDetailSchema(ticketTypeDetailSchemaResolver);
         _initTicketSchema(ticketSchemaResolver);
+    }
+
+    function _reinitResolvers() internal {
+        lemonadeAttesterSchemaResolver = new AttesterResolver(
+            _eas,
+            address(this)
+        );
+
+        creatorSchemaResolver = new EventHostSchemaResolver(_eas, this, true);
+
+        hostSchemaResolver = new EventHostSchemaResolver(_eas, this, false);
+
+        ticketSchemaResolver = new TicketIssuingSchemaResolver(
+            _eas,
+            this,
+            hostSchemaResolver
+        );
+
+        ticketTypeDetailSchemaResolver = new TicketTypeDetailSchemaResolver(
+            _eas,
+            this,
+            hostSchemaResolver
+        );
     }
 
     function _initEventCreatorSchema(
