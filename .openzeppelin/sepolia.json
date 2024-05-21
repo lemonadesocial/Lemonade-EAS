@@ -1,0 +1,342 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0x583B8e87E421f89147a50eeF3Ac09C557d4D91eE",
+      "txHash": "0x45c4e10f3e167dbf24f71bfb42b3516f14cb4d9b4c68a76e9b4ee9a38e4b6d5a",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "dbc739a40f921abe5bc4ca47818d0f793fd9b3c9ecce7159b5512d6e29bdb0d6": {
+      "address": "0xF2fe5924B8b5F848e15a48f7a8A0b45b60E7a77D",
+      "txHash": "0x16e1c57fef81ced0df13177966e25ba606bb956a666fa57fa1eb9f5c9dda7362",
+      "layout": {
+        "solcVersion": "0.8.19",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:40"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "eventCreatorSchemaId",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:32"
+          },
+          {
+            "label": "eventDetailSchemaId",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:33"
+          },
+          {
+            "label": "eventCohostSchemaId",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:34"
+          },
+          {
+            "label": "ticketTypeSchemaId",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:35"
+          },
+          {
+            "label": "ticketTypeDetailSchemaId",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:36"
+          },
+          {
+            "label": "ticketSchemaId",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:37"
+          },
+          {
+            "label": "_eas",
+            "offset": 0,
+            "slot": "107",
+            "type": "t_contract(IEAS)360",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:39"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IEAS)360": {
+            "label": "contract IEAS",
+            "numberOfBytes": "20"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "9011a7f312ed7c24b70846441b37dffb8cca4efc21b2f1e49d4fd20a3f8f9cd6": {
+      "address": "0xC1e85D0E6AD7D05186B55D0D4be59476D030739e",
+      "txHash": "0xb907f93e695a8b596a82f325358c2fa8ac3650fbdf033c95053be228f80e01bf",
+      "layout": {
+        "solcVersion": "0.8.19",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:40"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "eventCreatorSchemaId",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:32"
+          },
+          {
+            "label": "eventDetailSchemaId",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:33"
+          },
+          {
+            "label": "eventCohostSchemaId",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:34"
+          },
+          {
+            "label": "ticketTypeSchemaId",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:35"
+          },
+          {
+            "label": "ticketTypeDetailSchemaId",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:36"
+          },
+          {
+            "label": "ticketSchemaId",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_bytes32",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:37"
+          },
+          {
+            "label": "_eas",
+            "offset": 0,
+            "slot": "107",
+            "type": "t_contract(IEAS)360",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:39"
+          },
+          {
+            "label": "lemonadeAttesterSchemaResolver",
+            "offset": 0,
+            "slot": "108",
+            "type": "t_contract(ISchemaResolver)549",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:40"
+          },
+          {
+            "label": "creatorSchemaResolver",
+            "offset": 0,
+            "slot": "109",
+            "type": "t_contract(ISchemaResolver)549",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:41"
+          },
+          {
+            "label": "hostSchemaResolver",
+            "offset": 0,
+            "slot": "110",
+            "type": "t_contract(EventHostSchemaResolver)3826",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:42"
+          },
+          {
+            "label": "ticketSchemaResolver",
+            "offset": 0,
+            "slot": "111",
+            "type": "t_contract(ISchemaResolver)549",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:43"
+          },
+          {
+            "label": "ticketTypeDetailSchemaResolver",
+            "offset": 0,
+            "slot": "112",
+            "type": "t_contract(ISchemaResolver)549",
+            "contract": "LemonadeEventAttestation",
+            "src": "contracts/event/LemonadeEventAttestation.sol:44"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(EventHostSchemaResolver)3826": {
+            "label": "contract EventHostSchemaResolver",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IEAS)360": {
+            "label": "contract IEAS",
+            "numberOfBytes": "20"
+          },
+          "t_contract(ISchemaResolver)549": {
+            "label": "contract ISchemaResolver",
+            "numberOfBytes": "20"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    }
+  }
+}
