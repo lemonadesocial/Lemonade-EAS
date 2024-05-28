@@ -58,7 +58,12 @@ contract LemonadeEventAttestation is
         reinitResolversAndSchemas();
     }
 
-    function registerEvent(string memory externalId) external payable {
+    function registerEvent(
+        string memory externalId,
+        string memory creatorName,
+        string memory creatorProfile,
+        string memory eventLink
+    ) external payable {
         address creator = _msgSender();
 
         Event event_ = new Event();
@@ -70,7 +75,13 @@ contract LemonadeEventAttestation is
             0,
             true,
             "",
-            abi.encode(creator, externalId),
+            abi.encode(
+                creator,
+                creatorName,
+                creatorProfile,
+                eventLink,
+                externalId
+            ),
             msg.value
         );
 
