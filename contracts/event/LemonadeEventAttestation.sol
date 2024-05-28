@@ -18,9 +18,9 @@ contract Event {}
 string constant eventCreatorSchemaDefinition = "address creator, string creatorName, string creatorProfile, string eventLink, string externalId";
 string constant eventCohostSchemaDefinition = "address cohost, string cohostName, string cohostProfile, string eventLink";
 string constant eventDetailSchemaDefinition = "string title, string description, string date, string eventLink, string type, uint256 tickets, string creatorName, string creatorProfile";
-string constant ticketTypeSchemaDefinition = "string event, string eventLink, string externalId";
-string constant ticketTypeDetailSchemaDefinition = "string event, string eventLink, string title, string description, uint256 cost, string currency, string provider, bytes32 ticketTypeUID";
-string constant ticketSchemaDefinition = "string guest, string event, string eventLink, string ticket, string assignedBy, bytes32 ticketTypeUID, string externalId";
+string constant ticketTypeSchemaDefinition = "string eventName, string eventLink, string externalId";
+string constant ticketTypeDetailSchemaDefinition = "string eventName, string eventLink, string title, string description, uint256 cost, string currency, string provider, bytes32 ticketTypeUID";
+string constant ticketSchemaDefinition = "string guest, string eventName, string eventLink, string ticket, string assignedBy, bytes32 ticketTypeUID, string externalId";
 
 contract LemonadeEventAttestation is
     OwnableUpgradeable,
