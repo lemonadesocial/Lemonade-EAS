@@ -113,16 +113,61 @@ contract LemonadeEventAttestation is
 
     function reinitResolversAndSchemas() public onlyOwner {
         _reinitResolvers();
-        _reinitSchemas();
+
+        reinitEventCreatorSchema();
+        reinitEventCohostSchema();
+        reinitEventDetailSchema();
+        reinitTicketTypeSchema();
+        reinitTicketTypeDetailSchema();
+        reinitTicketSchema();
     }
 
-    function _reinitSchemas() internal {
-        _initEventCreatorSchema(lemonadeAttesterSchemaResolver);
-        _initEventCohostSchema(creatorSchemaResolver);
-        _initEventDetailSchema(hostSchemaResolver);
-        _initTicketTypeSchema(hostSchemaResolver);
-        _initTicketTypeDetailSchema(ticketTypeDetailSchemaResolver);
-        _initTicketSchema(ticketSchemaResolver);
+    function reinitEventCreatorSchema() public onlyOwner {
+        eventCreatorSchemaId = _eas.getSchemaRegistry().register(
+            eventCreatorSchemaDefinition,
+            lemonadeAttesterSchemaResolver,
+            true
+        );
+    }
+
+    function reinitEventCohostSchema() public onlyOwner {
+        eventCohostSchemaId = _eas.getSchemaRegistry().register(
+            eventCohostSchemaDefinition,
+            creatorSchemaResolver,
+            true
+        );
+    }
+
+    function reinitEventDetailSchema() public onlyOwner {
+        eventDetailSchemaId = _eas.getSchemaRegistry().register(
+            eventDetailSchemaDefinition,
+            hostSchemaResolver,
+            true
+        );
+    }
+
+    function reinitTicketTypeSchema() public onlyOwner {
+        ticketTypeSchemaId = _eas.getSchemaRegistry().register(
+            ticketTypeSchemaDefinition,
+            hostSchemaResolver,
+            true
+        );
+    }
+
+    function reinitTicketTypeDetailSchema() public onlyOwner {
+        ticketTypeDetailSchemaId = _eas.getSchemaRegistry().register(
+            ticketTypeDetailSchemaDefinition,
+            ticketTypeDetailSchemaResolver,
+            true
+        );
+    }
+
+    function reinitTicketSchema() public onlyOwner {
+        ticketSchemaId = _eas.getSchemaRegistry().register(
+            ticketSchemaDefinition,
+            ticketSchemaResolver,
+            true
+        );
     }
 
     function _reinitResolvers() internal {
@@ -145,54 +190,6 @@ contract LemonadeEventAttestation is
             _eas,
             this,
             hostSchemaResolver
-        );
-    }
-
-    function _initEventCreatorSchema(ISchemaResolver resolver) internal {
-        eventCreatorSchemaId = _eas.getSchemaRegistry().register(
-            eventCreatorSchemaDefinition,
-            resolver,
-            true
-        );
-    }
-
-    function _initEventCohostSchema(ISchemaResolver resolver) internal {
-        eventCohostSchemaId = _eas.getSchemaRegistry().register(
-            eventCohostSchemaDefinition,
-            resolver,
-            true
-        );
-    }
-
-    function _initEventDetailSchema(ISchemaResolver resolver) internal {
-        eventDetailSchemaId = _eas.getSchemaRegistry().register(
-            eventDetailSchemaDefinition,
-            resolver,
-            true
-        );
-    }
-
-    function _initTicketTypeSchema(ISchemaResolver resolver) internal {
-        ticketTypeSchemaId = _eas.getSchemaRegistry().register(
-            ticketTypeSchemaDefinition,
-            resolver,
-            true
-        );
-    }
-
-    function _initTicketTypeDetailSchema(ISchemaResolver resolver) internal {
-        ticketTypeDetailSchemaId = _eas.getSchemaRegistry().register(
-            ticketTypeDetailSchemaDefinition,
-            resolver,
-            true
-        );
-    }
-
-    function _initTicketSchema(ISchemaResolver resolver) internal {
-        ticketSchemaId = _eas.getSchemaRegistry().register(
-            ticketSchemaDefinition,
-            resolver,
-            true
         );
     }
 }
